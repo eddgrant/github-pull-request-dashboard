@@ -32,7 +32,7 @@ test: pep8
 	. ${VENV_DIR}/bin/activate && ${VENV_DIR}/bin/nosetests --with-xunit --xunit-file=target/nosetests.xml --with-xcover --xcoverage-file=target/coverage/coverage.xml --cover-package=pull_requests --cover-erase --cover-html-dir=target/coverage --cover-html
 
 run: pep8
-	VENV_DIR=${VENV_DIR} ./run.sh &
+	./run.sh &
 
 docker:
 	docker build -t pull-requests .
