@@ -2,13 +2,18 @@
 
 A simple web application which shows outstanding pull requests for repos it has been configured to watch. Shows the following information for each PR:
 
-* Whether or not they are assigned (and to whom if they are).
-* How long since the PR has been open for.
+* Whether or not it is assigned (and to whom).
+* How long the PR has been open for.
 * Who opened the PR.
 
-PRs are sorted in to 'assigned' and 'unassigned' groups and are listed with the oldest first in order to encourage teams to work in a FIFO manner and not to pick favourites.
+PRs are sorted in to 'assigned' and 'unassigned' groups and are oldest first within each group in order to encourage teams to work in a FIFO manner and not to pick favourites.
 
-Each PR block contains a link to the PR in GitHub.
+Each piece of PR information contains a link to the PR in GitHub.
+
+#Origins
+
+This project started life as an internal tool in [HMRC](https://github.com/hmrc)'s WebOps team, the initial development was done mostly by [Stephen Crossan](https://github.com/scrossan).
+WebOps' Digital Service Manager [Kalbir Sohi](https://github.com/kalbir) and Steve Crossan have both kindly agreed that this 'generified' code can now be open sourced.
 
 # How to develop this application
 
@@ -31,9 +36,11 @@ Open the project in your favourite IDE, don't forget to point the IDE at the vir
 
 ### Running the app
 
-The app can be run either directly from source or as a docker container, the configuration in both cases is the same:
+#### Configuration
 
-#### Create an Oauth Token
+Before the app can be run it will need some basic configuration:
+
+##### Create an Oauth Token
 
 The application authenticates against GitHub using an OAuth token, [details here](https://github.com/blog/1509-personal-api-tokens) on how to create one:
 
@@ -43,7 +50,7 @@ Your OAuth token requires the following permissions:
 * public_repo
 * repo:status
 
-#### Configure the repos you want to watch
+##### Configure the repos you want to watch
 
 Watched repos are expressed in a YAML document which is passed to the application via an environment variable named `REPOS`. The configuration structure is made up of a list of watched 'groups'. Each group is given a name and one or more repositories to watch.
 
@@ -51,7 +58,7 @@ Here's an example of the required YAML document structure.
 
     ---
     -
-      group: eg
+      group: edd
       description: PRs on Edd's Projects
       watches:
         -
@@ -75,34 +82,18 @@ Here's an example of the required YAML document structure.
         -
           owner: hmrc
           repo: ct-calculations
-### Running from source
-
-`run-example.sh` provides an example of how to run the application from source, simply configure the file with your OAuth token and the repositories you want to watch and then execute the script.
-
-    REPOS=$(cat <<'heredoc'
-    ---
-    -
-      group: eddgrant
-      description: PRs on Edds Projects
-      watches:
-        -
-          owner: eddgrant
-          repo: vagrant-roller
-        -
-          owner: eddgrant
-          repo: github-pull-request-dashboard
-    -
-      group: fbd
-      watches:
-        -
-          owner: bbc
-          repo: eng-pcs-squirrel
-    heredoc)
 
 
-    GITHUB_OAUTH_TOKEN=
-    ~/.pyenv/versions/venv-github-pull-requests-dashboard-2.7.10/bin/gunicorn --config=gunicorn.py pull_requests.pull_requests_web:app --debug --access-logfile - --error-log - --log-config logging.conf
+The app can be run either directly from source or as a docker container, the configuration in both cases is the same:
 
-### Running as a docker container
+#### Running from source
 
-TODO:
+`run.sh` provides an example of how to run the application from source, simply configure the file with your OAuth token and the repositories you want to watch and then execute the script.
+
+The application will then start and will be available at http://localhost:8000
+
+#### Running as a docker container
+
+This is a work in progress and will be detailed soon.
+    
+
