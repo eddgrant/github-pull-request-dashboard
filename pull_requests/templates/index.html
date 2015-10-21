@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+<title>{% block title %}{% endblock %}</title>
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>Pull Request Dashboard</h1>
+    </div>
+
+    <h3>The current pull request groups are configured:</h3>
+    <h3>
+        <ul>
+            {% for group in groups %}
+              <li><a href="/pulls/{{ group }}">{{ group }}</a></li>
+            {% endfor %}
+        </ul>
+    </h3>
+
+{% endblock %}

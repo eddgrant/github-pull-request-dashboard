@@ -1,0 +1,27 @@
+@charset "UTF-8";
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+
+a:hover {
+    text-decoration: none;
+}
+
+.footer {
+    color: #9C9C9C;
+}
+
+.overlay {
+    background:rgba(238, 238, 238, 0.7);
+}
+
+.actionme {
+    color: #f0ad4e;
+}
+
+.notokay {
+    color: #d9534f;
+}
+
+.okay {
+    color: #5cb85c;
+}
+

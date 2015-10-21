@@ -1,0 +1,8 @@
+/venv/
+*.swp
+*.pyc
+/target/
+.coverage
+.idea
+/dist/
+.secrets.yaml

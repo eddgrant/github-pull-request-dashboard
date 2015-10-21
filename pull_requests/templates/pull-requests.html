@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+<title>{% block title %}{{ description }}{% endblock %}</title>
+
+{% block head %}
+    {{ super() }}
+    <script>
+	    setTimeout(function() { location.reload() }, 10000);
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>{{ description }}</h1>
+    </div>
+
+    {% set unassigned = pr_list.0 %}
+    {% set assigned = pr_list.1 %}
+
+    {% if unassigned|length == 0 and assigned|length == 0 %}
+        <div class="text-center">
+            <h2>
+                No pull requests!
+            </h2>
+        </div>
+    {% endif %}
+
+    {% if unassigned|length > 0 %}
+        <h2>Unassigned:</h2>
+        <div class="row">
+            {% for pull_request in unassigned|sort(attribute='waited', reverse=True) %}
+                <div class="col-md-4">
+                    <a href="{{ pull_request['html_url'] }}" target="_blank">
+                        <div class="panel panel-default" style="background-color: #EEEEEE; background-image: url({{ pull_request['avatar'] }}); background-size: 50%; background-repeat: no-repeat; background-position: center center;">
+                            <div class="overlay">
+                                <div class="panel-body">
+                                    <div class="text-center">
+                                        <h4>
+                                            {{ pull_request['repo']['repo'] + " #" + pull_request['num'] }}
+                                        </h4>
+                                        <p>
+                                            Pushed <b class="{% if pull_request['waited'] <= 1 %}okay{% elif pull_request['waited'] > 10 %}notokay{% else %}actionme{% endif %}">{% if pull_request['waited'] < 0.2 %}just now{% elif pull_request['waited'] < 0.5 %} less than half an hour ago{% elif pull_request['waited'] < 1 %} less than an hour ago{% elif pull_request['waited']|int(pull_request['waited']) == 1 %}{{ pull_request['waited']|int(pull_request['waited']) }} hour ago{% else %}{{ pull_request['waited']|int(pull_request['waited']) }} hours ago{% endif %}</b><br>by {{ pull_request['user'] }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if assigned|length > 0 %}
+        <h2>Assigned:</h2>
+        <div class="row">
+            {% for pull_request in assigned|sort(attribute='waited', reverse=True) %}
+                <div class="col-md-4">
+                    <a href="{{ pull_request['html_url'] }}" target="_blank">
+                        <div class="panel panel-default" style="background-color: #EEEEEE; background-image: url({{ pull_request['avatar'] }}); background-size: 50%; background-repeat: no-repeat; background-position: center center;">
+                            <div class="overlay">
+                                <div class="panel-body">
+                                    <div class="text-center">
+                                        <h4>
+                                            {{ pull_request['repo']['repo'] + " #" + pull_request['num'] }}
+                                        </h4>
+                                        <p>
+                                            Pushed <b class="{% if pull_request['waited'] <= 1 %}okay{% elif pull_request['waited'] > 10 %}notokay{% else %}actionme{% endif %}">{% if pull_request['waited'] < 0.2 %}just now{% elif pull_request['waited'] < 0.5 %} less than half an hour ago{% elif pull_request['waited'] < 1 %} less than an hour ago{% elif pull_request['waited']|int(pull_request['waited']) == 1 %}{{ pull_request['waited']|int(pull_request['waited']) }} hour ago{% else %}{{ pull_request['waited']|int(pull_request['waited']) }} hours ago{% endif %}</b>
+                                            <br />by {{ pull_request['user'] }}
+                                            <br />Assigned to {{ pull_request['assignee'] }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    <div class="text-center">
+        <a href="/"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-up"></span> Dashboard Homepage</button></a>
+    </div>
+
+{% endblock %}

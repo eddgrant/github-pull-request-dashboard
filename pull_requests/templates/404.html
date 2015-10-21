@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+<title>{% block title %}{{ header }}{% endblock %}</title>
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>Pull Request Dashboard</h1>
+    </div>
+
+    <div class="text-center" id="not-found">
+        <h2>
+            The requested resource was not found!
+        </h2>
+    </div>
+
+    <h3>This app is currently set up for:</h3>
+    <h3>
+        <ul>
+            {% for team in teams %}
+              <li><a href="/pulls/{{ team }}">{{ team }}</a></li>
+            {% endfor %}
+        </ul>
+    </h3>
+
+{% endblock %}
