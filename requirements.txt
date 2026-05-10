@@ -6,7 +6,7 @@ logging==0.4.9.6
 logstash_formatter==0.5.8
 MarkupSafe==0.23
 PyYAML==3.11
-requests==2.4.1
+requests==2.33.0
 Werkzeug==0.9.6
 wsgiref==0.1.2
 
