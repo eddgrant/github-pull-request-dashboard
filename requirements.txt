@@ -1,7 +1,7 @@
 Flask==0.10.1
 gunicorn==19.1.1
 itsdangerous==0.24
-Jinja2==2.7.3
+Jinja2==3.1.6
 logging==0.4.9.6
 logstash_formatter==0.5.8
 MarkupSafe==0.23
